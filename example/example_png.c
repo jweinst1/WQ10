@@ -7,10 +7,10 @@ static const char* FILE_PATH_NAME = "examp.png";
 int main(int argc, char *argv[])
 {
 	unsigned char* buffer;
+	unsigned brush;
 
 	int width = 50;
 	int height = 50;
-
 
 	printf("Creating Image at path:%s\n", FILE_PATH_NAME);
 	buffer = malloc(50 * 50 * 3);
@@ -18,6 +18,8 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "%s\n", "malloc returned null");
 		return 1;
 	}
+	for(brush = 0; brush < 1000; brush++)
+		buffer[brush] = 126;
 
 	// Save the image to a PNG file
 	// The 'title' string is stored as part of the PNG file

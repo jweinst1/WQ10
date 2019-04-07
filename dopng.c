@@ -19,11 +19,17 @@ extern int write_png_to_file(const char* filename,
 	png_structp png_ptr = NULL;
 	png_infop info_ptr = NULL;
 	png_bytep row = NULL;
+
+	if(width == 0 || height == 0) {
+		fprintf(stderr, "PNG Error: Found a zero dimension. width:%d, height%d\n", width, height);
+		code = 1;
+		goto finalise;
+	}
 	
 	// Open file for writing (binary mode)
 	fp = fopen(filename, "wb");
 	if (fp == NULL) {
-		fprintf(stderr, "Could not open file %s for writing\n", filename);
+		fprintf(stderr, "PNG ERROR: Could not open file %s for writing\n", filename);
 		code = 1;
 		goto finalise;
 	}
@@ -31,7 +37,7 @@ extern int write_png_to_file(const char* filename,
 	// Initialize write structure
 	png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (png_ptr == NULL) {
-		fprintf(stderr, "Could not allocate write struct\n");
+		fprintf(stderr, "PNG ERROR: Could not allocate PNG write struct\n");
 		code = 1;
 		goto finalise;
 	}
@@ -39,14 +45,14 @@ extern int write_png_to_file(const char* filename,
 	// Initialize info structure
 	info_ptr = png_create_info_struct(png_ptr);
 	if (info_ptr == NULL) {
-		fprintf(stderr, "Could not allocate info struct\n");
+		fprintf(stderr, "PNG ERROR: Could not allocate PNG info struct\n");
 		code = 1;
 		goto finalise;
 	}
 
 	// Setup Exception handling
 	if (setjmp(png_jmpbuf(png_ptr))) {
-		fprintf(stderr, "Error during png creation\n");
+		fprintf(stderr, "PNG Error: Creating the PNG output failed.\n");
 		code = 1;
 		goto finalise;
 	}
