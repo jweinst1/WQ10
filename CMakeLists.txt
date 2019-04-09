@@ -26,4 +26,4 @@ add_subdirectory(hash)
 
 # Builds the main CLI program.
 add_executable(wq10 main.c)
-target_link_libraries(wq10 dopng)
+target_link_libraries(wq10 dopng wq10_hash)
