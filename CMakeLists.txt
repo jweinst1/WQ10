@@ -13,8 +13,8 @@ target_include_directories(dopng PUBLIC
                     ${PROJECT_SOURCE_DIR}/libpng
                     ${PROJECT_BINARY_DIR}/libpng)
 
-# Makes the dopng header available
-include_directories(${PROJECT_SOURCE_DIR}/dopngs)
+# Makes the dopng header and hash header available
+include_directories(${PROJECT_SOURCE_DIR}/dopngs ${PROJECT_SOURCE_DIR}/hash)
 
 # wq10 definitions
 # WQ10_OUTPUT_TITLE - Determines meta title written to output PNG

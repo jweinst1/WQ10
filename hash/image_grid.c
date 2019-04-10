@@ -28,17 +28,20 @@ extern void load_start_values(struct image_grid* grid)
 			case MAJOR_GREEN:
 			    grid->hash_blocks[i].green = 255;
 			    grid->hash_blocks[i].blue = OFFSET_VALUES[offset];
-			    grid->hash_blocks[i].red = OFFSET_VALUES[offset] + 3;
+			    grid->hash_blocks[i].red = OFFSET_VALUES[offset] + 41;
+			    picker = MAJOR_RED;
 			    break;
 			case MAJOR_RED:
 			    grid->hash_blocks[i].green = OFFSET_VALUES[offset] + 5;
 			    grid->hash_blocks[i].blue = OFFSET_VALUES[offset];
 			    grid->hash_blocks[i].red = 255;
+			    picker = MAJOR_BLUE;
 			    break;
 			case MAJOR_BLUE:
 			    grid->hash_blocks[i].green = OFFSET_VALUES[offset] + 5;
 			    grid->hash_blocks[i].blue = 255;
-			    grid->hash_blocks[i].red = OFFSET_VALUES[offset] + 3;			
+			    grid->hash_blocks[i].red = OFFSET_VALUES[offset] + 3;
+			    picker = MAJOR_GREEN;	
 			    break;
 		}
 		offset = (offset == OFFSET_VALUES_SIZE ? 0 : (offset + 1));

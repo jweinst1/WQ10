@@ -1,9 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "wq10_types.h"
+#include "wq10_hasher.h"
+#include "dopng.h"
+
+#ifndef WQ10_OUTPUT_TITLE
+#  warning "Option WQ10_OUTPUT_TITLE not set."
+#endif // WQ10_OUTPUT_TITLE
 
 static struct wq10_info WQ_10_OPTIONS;
+static struct output_buf HASHED_OUTPUT;
 
 static void clear_wq10_options(void)
 {
@@ -47,6 +53,21 @@ static int get_wq10_options(const char** arguments)
 
 int main(int argc, char const *argv[])
 {
-	printf("the output size is %d\n", WQ10_OUTPUT_BUF_SIZE);
+	if(!get_wq10_options(argv + 1)) {
+		fprintf(stderr, "%s\n", "Exiting.");
+		exit(1);
+	}
+	printf("Preparing image hash of '%s', with size '%lu'\n", WQ_10_OPTIONS.input, WQ_10_OPTIONS.input_len);
+
+	if(!hash_input_into_buf(&HASHED_OUTPUT, WQ_10_OPTIONS.input)) {
+		fprintf(stderr, "%s\n", "HashError: Could not complete image hashing, exiting...");
+		exit(2);
+	}
+
+	if(write_png_to_file(WQ_10_OPTIONS.output_path, 100, 100, HASHED_OUTPUT.data, WQ10_OUTPUT_TITLE) == 1) {
+		fprintf(stderr, "%s\n", "Failed to write to png file, see other errors.");
+		exit(4);
+	}
+	printf("Hashed image written to '%s'.\n", WQ_10_OPTIONS.output_path);
 	return 0;
 }

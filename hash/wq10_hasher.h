@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include "wq10_types.h"
+#include "../wq10_types.h"
 
 extern void load_start_values(struct image_grid* grid);
 
